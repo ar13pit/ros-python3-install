@@ -33,6 +33,14 @@ wstool update -j4 -t src
 export ROS_PYTHON_VERSION=3
 export PYTHONPATH=/usr/lib/python3/dist-packages
 
+# If ros is already installed with python2 support using apt sources, then use the following command to get
+# a list of python packages to be installed
+#
+# rosdep install --simulate --reinstall --from-paths src --ignore-src | grep python | grep -v python3 | sed -e "s/.*sudo -H apt-get install //g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g"
+#
+# It will be better to install all python3 sources using pip instead of system and just use --no-recommend-install flag
+# in the apt command for all the other packages
+
 sudo ./install_skip $(rosdep check --from-paths src --ignore-src | grep python | grep -v python3 | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g")
 rosdep install --from-paths src --ignore-src -y --skip-keys="$(rosdep check --from-paths src --ignore-src | grep python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")"
 
