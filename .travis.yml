@@ -1,0 +1,9 @@
+os: linux
+dist: bionic
+language: shell
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - ./install_ros_python3
