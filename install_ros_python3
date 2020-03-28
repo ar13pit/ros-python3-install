@@ -5,7 +5,7 @@ pip3 install --user -U pip
 hash -r
 pip3 install --user -U rosdep rospkg rosinstall_generator rosinstall wstool vcstools catkin_pkg defusedxml
 pip3 install --user -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-18.04 wxPython
-pip3 install --user -U backports.ssl_match_hostname
+pip3 install --user -U backports.ssl_match_hostname twisted
 
 # Download and install the latest cmake
 
@@ -24,11 +24,8 @@ cp install_skip catkin_ws_python3/
 cd catkin_ws_python3
 
 catkin config --init -DCMAKE_BUILD_TYPE=Release -DPYTHON_VERSION=3 --install
-rosinstall_generator desktop_full --rosdistro melodic --deps --tar > melodic-desktop-full.rosinstall
-rosinstall_generator rosbridge_suite --rosdistro melodic --deps --tar --exclude RPP > melodic-rosbridge_suite.rosinstall
-wstool init -j8 src melodic-desktop-full.rosinstall
-wstool init -j8 src melodic-rosbridge_suite.rosinstall
-wstool update -j4 -t src
+rosinstall_generator desktop_full rosbridge_suite --rosdistro melodic --deps --tar > melodic-full.rosinstall
+wstool init -j8 src melodic-full.rosinstall
 
 export ROS_PYTHON_VERSION=3
 export PYTHONPATH=/usr/lib/python3/dist-packages
@@ -42,6 +39,7 @@ export PYTHONPATH=/usr/lib/python3/dist-packages
 # in the apt command for all the other packages
 
 sudo ./install_skip $(rosdep check --from-paths src --ignore-src | grep python | grep -v python3 | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g")
+
 rosdep install --from-paths src --ignore-src -y --skip-keys="$(rosdep check --from-paths src --ignore-src | grep python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")"
 
 find . -type f -exec sed -i 's/\/usr\/bin\/env[ ]*python/\/usr\/bin\/env python3/g' {} +
