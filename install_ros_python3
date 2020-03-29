@@ -39,14 +39,14 @@ python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | gr
 
 echo
 echo "executing command [sudo -H apt-get install -y -qq $python3_packages > /dev/null ]"
-sudo -H apt-get install -y -qq $python3_packages > /dev/null
+sudo -H apt-get install -y -qq $python3_packages > /dev/null || { echo "Failed to install python deps" && exit 1; }
 
 # rosdep install --from-paths src --ignore-src -y -q --skip-keys="$(rosdep check --from-paths src --ignore-src | grep python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")"
 non_python_packages=$(rosdep check --from-paths src --ignore-src | grep -v python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")
 
 echo
 echo "executing command [sudo -H apt-get install -y -qq $non_python_packages > /dev/null ]"
-sudo -H apt-get install -y -qq $non_python_packages > /dev/null
+sudo -H apt-get install -y -qq $non_python_packages > /dev/null || { echo "Failed to install non python deps" && exit 1; }
 
 find . -type f -exec sed -i 's/\/usr\/bin\/env[ ]*python/\/usr\/bin\/env python3/g' {} +
 
