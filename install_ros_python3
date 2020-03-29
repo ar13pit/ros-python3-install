@@ -36,26 +36,13 @@ export PYTHONPATH=/usr/lib/python3/dist-packages
 # If ros is already installed with python2 support using apt sources, then use the following command to get
 # a list of python packages to be installed
 #
-# rosdep install --simulate --reinstall --from-paths src --ignore-src | grep python | grep -v python3 | sed -e "s/.*sudo -H apt-get install //g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g"
-#
-# It will be better to install all python3 sources using pip instead of system and just use --no-recommend-install flag
-# in the apt command for all the other packages
+# rosdep install --simulate --reinstall --from-paths src --ignore-src | grep apt | sed -e "s/.*sudo -H apt-get install //g" | grep -v -E "$(echo "$pip_packages" | sed -e "s/ /|/g" | sed -e "s/_/-/g")" | sed -e "s/^python3\{0,1\}-/python3-/g" | sort | uniq | sed -z "s/\n/ /g"
 
-# Install python3 dependencies
-# python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | grep -v wxtools | grep -v backports | grep -v python3 | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g")
-
-python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | sed -e "s/^apt\t//g" | sed -e "s/python3\{0,1\}-//g" | sort | uniq | sed -z "s/\n/ /g")
+apt_packages=$(rosdep check --from-paths src --ignore-src | grep apt | sed -e "s/^apt\t//g" | grep -v -E "$(echo "$pip_packages" | sed -e "s/ /|/g" | sed -e "s/_/-/g")" | sed -e "s/^python3\{0,1\}-/python3-/g" | sort | uniq | sed -z "s/\n/ /g")
 
 echo
-echo -e "\e[1;97m executing command [pip3 install --user -U $python3_packages ]\e[0m"
-pip3 install -U --user $python3_packages || { echo "Failed to install python deps" && exit 1; }
-
-# rosdep install --from-paths src --ignore-src -y -q --skip-keys="$(rosdep check --from-paths src --ignore-src | grep python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")"
-non_python_packages=$(rosdep check --from-paths src --ignore-src | grep -v python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")
-
-echo
-echo "executing command [sudo -H apt-get install -y -qq $non_python_packages > /dev/null ]"
-sudo -H apt-get install -y -qq $non_python_packages > /dev/null || { echo "Failed to install non python deps" && exit 1; }
+echo "\e[1;97m executing command [sudo -H apt-get install -y -qq --no-install-recommends $apt_packages > /dev/null ]\e[0m"
+sudo -H apt-get install -y -qq --no-install-recommends $apt_packages > /dev/null || { echo "Failed to install deps" && exit 1; }
 
 find . -type f -exec sed -i 's/\/usr\/bin\/env[ ]*python/\/usr\/bin\/env python3/g' {} +
 
