@@ -41,11 +41,13 @@ export PYTHONPATH=/usr/lib/python3/dist-packages
 # in the apt command for all the other packages
 
 # Install python3 dependencies
-python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | grep -v wxtools | grep -v backports | grep -v python3 | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g")
+# python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | grep -v wxtools | grep -v backports | grep -v python3 | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g")
+
+python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | sed -e "s/^apt\t//g" | sed -e "s/python3\{0,1\}-//g" | sort | uniq | sed -z "s/\n/ /g")
 
 echo
-echo "executing command [sudo -H apt-get install -y -qq $python3_packages > /dev/null ]"
-sudo -H apt-get install -y -qq $python3_packages > /dev/null || { echo "Failed to install python deps" && exit 1; }
+echo -e "\e[1;97m executing command [pip3 install --user -U $python3_packages ]\e[0m"
+pip3 install -U --user $python3_packages || { echo "Failed to install python deps" && exit 1; }
 
 # rosdep install --from-paths src --ignore-src -y -q --skip-keys="$(rosdep check --from-paths src --ignore-src | grep python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")"
 non_python_packages=$(rosdep check --from-paths src --ignore-src | grep -v python | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g")
