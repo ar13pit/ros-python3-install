@@ -35,7 +35,7 @@ export PYTHONPATH=/usr/lib/python3/dist-packages
 # in the apt command for all the other packages
 
 # Install python3 dependencies
-python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | grep -v python3 | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g")
+python3_packages=$(rosdep check --from-paths src --ignore-src | grep python | grep -v wxtools | grep -v backports | grep -v python3 | sed -e "s/^apt\t//g" | sed -z "s/\n/ /g" | sed -e "s/python/python3/g")
 
 echo
 echo "executing command [sudo -H apt-get install -y -qq $python3_packages > /dev/null ]"
