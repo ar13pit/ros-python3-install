@@ -41,7 +41,7 @@ export PYTHONPATH=/usr/lib/python3/dist-packages
 apt_packages=$(rosdep check --from-paths src --ignore-src | grep apt | sed -e "s/^apt\t//g" | grep -v -E "$(echo "$pip_packages" | sed -e "s/ /|/g" | sed -e "s/_/-/g")" | sed -e "s/^python3\{0,1\}-/python3-/g" | sort | uniq | sed -z "s/\n/ /g")
 
 echo
-echo "\e[1;97m executing command [sudo -H apt-get install -y -qq --no-install-recommends $apt_packages > /dev/null ]\e[0m"
+echo -e "\e[1;97m executing command [sudo -H apt-get install -y -qq --no-install-recommends $apt_packages > /dev/null ]\e[0m"
 sudo -H apt-get install -y -qq --no-install-recommends $apt_packages > /dev/null || { echo "Failed to install deps" && exit 1; }
 
 find . -type f -exec sed -i 's/\/usr\/bin\/env[ ]*python/\/usr\/bin\/env python3/g' {} +
