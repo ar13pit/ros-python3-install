@@ -20,10 +20,8 @@ sudo rosdep init
 rosdep update
 
 # Setup the base workspace
-cd $HOME
-mkdir -p catkin_ws_python3
-cp install_skip catkin_ws_python3/
-cd catkin_ws_python3
+mkdir -p $HOME/catkin_ws_python3
+cd $HOME/catkin_ws_python3
 
 catkin config --init -DCMAKE_BUILD_TYPE=Release -DPYTHON_VERSION=3 --install
 rosinstall_generator desktop_full rosbridge_suite --rosdistro melodic --deps --tar > melodic-full.rosinstall
