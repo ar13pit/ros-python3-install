@@ -31,7 +31,7 @@ rosinstall_generator desktop_full rosbridge_suite --rosdistro melodic --deps --t
 wstool init -j8 src melodic-full.rosinstall > /dev/null
 
 export ROS_PYTHON_VERSION=3
-export PYTHONPATH=/usr/lib/python3/dist-packages
+export PYTHONPATH=$HOME/.local/lib/python3.6/site-packages:/usr/lib/python3/dist-packages
 
 # If ros is already installed with python2 support using apt sources, then use the following command to get
 # a list of python packages to be installed
