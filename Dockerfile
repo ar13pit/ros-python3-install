@@ -32,6 +32,6 @@ RUN apt-get update -qq && \
 USER "$USER"
 WORKDIR /home/"$USER"
 
-ADD install_ros_python3 ./bootstrap.bash
+ADD bootstrap.bash ./bootstrap.bash
 
 RUN ./bootstrap.bash
