@@ -12,7 +12,7 @@ sudo -H pip3 install -U -q pip rosdep wstool
 pip3 install --user -U -q pip setuptools
 hash -r
 
-pip_packages="rosdep wstool rospkg rosinstall-generator rosinstall vcstools catkin-pkg defusedxml cmake backports.ssl_match_hostname twisted"
+pip_packages="rosdep wstool rospkg rosinstall-generator rosinstall vcstools catkin-pkg defusedxml cmake<3.17 backports.ssl_match_hostname twisted"
 
 pip3 install --user -U -q $pip_packages
 pip3 install --user -U -q git+https://github.com/catkin/catkin_tools.git
