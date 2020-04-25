@@ -52,13 +52,13 @@ done
 
 image_substring=$(basename "$CI_DOCKER_IMAGE_NAME")
 case $image_substring in
-    ros_base )
+    ros-base )
         BASE_IMAGE="ubuntu:18.04" ;;
-    ros_cuda )
+    ros-cuda )
         BASE_IMAGE="nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04" ;;
     * )
         echo -e "Error! Unknown image tag subname provided."
-        echo -e "Supported names are 'tue-env' or 'tue-env-cuda'"
+        echo -e "Supported names are 'ros-base' or 'ros-cuda'"
         exit 1
 esac
 
