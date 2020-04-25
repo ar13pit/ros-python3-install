@@ -8,7 +8,7 @@ jobs:
       stage: Docker build
       language: generic
       name: ros-base
-      install: ci/build-docker-image.sh --image="ar13pit/$TRAVIS_JOB_NAME" --branch="$TRAVIS_BRANCH" --commit="$TRAVIS_COMMIT" --pull-request="$TRAVIS_PULL_REQUEST" --pull_request_branch="$TRAVIS_PULL_REQUEST_BRANCH" --user="$DOCKER_HUB_USERNAME" --password="$DOCKER_HUB_PASSWORD"
+      install: ci/build-docker-image.sh --image="ar13pit/$TRAVIS_JOB_NAME" --branch="$TRAVIS_BRANCH" --pull-request="$TRAVIS_PULL_REQUEST" --user="$DOCKER_HUB_USERNAME" --password="$DOCKER_HUB_PASSWORD"
 
     - <<: *docker-build
       name: ros-cuda

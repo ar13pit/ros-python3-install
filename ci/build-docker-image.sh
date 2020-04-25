@@ -26,12 +26,6 @@ do
         -pr=* | --pull_request=* )
             CI_PULL_REQUEST="${i#*=}" ;;
 
-        -prb=* | --pull_request_branch=* )
-            CI_PULL_REQUEST_BRANCH="${i#*=}" ;;
-
-        -c=* | --commit=* )
-            CI_COMMIT="${i#*=}" ;;
-
         -u=* | --user=* )
             CI_DOCKER_USER="${i#*=}" ;;
 
