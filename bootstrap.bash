@@ -46,6 +46,7 @@ sudo -H apt-get install -y -qq --no-install-recommends $apt_packages > /dev/null
 
 find . -type f -exec sed -i 's/\/usr\/bin\/env[ ]*python/\/usr\/bin\/env python3/g' {} +
 
+catkin build --no-status rosbridge_suite
 catkin build --no-status
 
 source install/setup.bash
