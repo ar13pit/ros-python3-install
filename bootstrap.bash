@@ -27,7 +27,7 @@ mkdir -p $HOME/catkin_ws_python3
 cd $HOME/catkin_ws_python3
 
 catkin config --init -DCMAKE_BUILD_TYPE=Release -DPYTHON_VERSION=3 --install
-rosinstall_generator desktop_full rosbridge_suite --rosdistro melodic --deps --tar > melodic-full.rosinstall
+rosinstall_generator desktop_full rosbridge_suite --rosdistro noetic --deps --tar > melodic-full.rosinstall
 wstool init -j8 src melodic-full.rosinstall > /dev/null
 
 export ROS_PYTHON_VERSION=3
